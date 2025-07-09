@@ -1,3 +1,24 @@
+<?php
+//BAIXANDO E CARREGANDO O ARQUIVO AUTOLOAD 
+require_once '../vendor/autoload.php';
+
+//IMPORTANDO A CLASSE USER
+Use Model\User;
+$user = new User();
+
+
+if($_SERVER ['REQUEST_METHOD'] === 'POST'){
+    if(isset($_POST['user_fullname'] , $_POST['email'] , $_POST['password'])){
+        $user_fullname = $_POST['user_fullname'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $user->registerUser($user_fullname,  $email, $password);
+    }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 

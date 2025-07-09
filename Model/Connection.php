@@ -1,4 +1,7 @@
 <?php
+//ESTABELECIMENTO DA CONEXÃO COM O BANCO DE DADOS 
+
+
 
 //CONFIGURAÇÕES DE USO
 
@@ -11,11 +14,11 @@ use PDOException;
 
 
 //BUSCANDO DADOS DE CONFIGURAÇÃO DO BANCO DE DADOS 
-require __DIR__ ."../Config/configuration.php";
+require_once __DIR__ ."/../Config/configuration.php";
 
 class Connection {
     //ATRIBUTO ESTÁTICO QUE IRÁ PERMITIR A CONEXÃO ABAIXO 
-    private static $stmt;
+   private static $stmt;
 
     //CONEXÃO COM BANCO DE DADOS
     public static function getInstance() {
@@ -23,6 +26,8 @@ class Connection {
         
         try {
             if(empty(self:: $stmt)){
+            //ELE SIMBOLIZA O STATUS DA CONEXÃO 
+
             self::$stmt = new PDO('mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . '' , DB_USER, DB_PASSWORD);
         }
         }catch(PDOException $error){
