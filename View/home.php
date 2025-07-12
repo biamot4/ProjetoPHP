@@ -4,11 +4,13 @@
 require_once '../vendor/autoload.php';
 
 //IMPORTANDO A CLASSE IMC'S
-use Model\Imcs;
+use Controller\ImcController;
 
 //CRIANDO UM OBJETO PARA REPRESENTAR CADA IMC CRIADO                                                                                                                          
-$imc =  new Imcs(); 
+$imcController =  new ImcController(); 
+$imcResult = null;
 
+       
 if($_SERVER['REQUEST_METHOD']==='POST'){
     if(isset($_POST['weight'], $_POST['height'])){
         $weight = $_POST['weight'];
@@ -17,8 +19,16 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         //ROUND é igual ao toFixed do JavaScript, ou seja, define a quantidade de caracteres depois da vírgula e arredonda 
         // $result = round($weight / ($height * $height), 2);
 
-            //PEGANDO A FUNÇÃO DE CRIAR IMC
-        $imc->createImc($weight, $height, $result);
+        //VAR_DUMP MOSTRA O QUE A IMCCONTROLLER POSSUI 
+        // var_dump(  $imcController->calculateImc($weight, $height));
+
+        //UTILIZANDO O CONTROLLER COMO INTERMEDIÁRIO DE MANIPULAÇÃO E GERENCIAMENTO DE DADOS FRONT/BACK
+       $imcResult = $imcController->calculateImc($weight, $height);
+
+       //VERIFICAR SE OS CAMPOS FORAM PREENCHIDOS
+       if($imcResult['BMIrange'] != "O peso e a altura devem conter valores positivos"){
+        $imcController->saveIMC($weight, $height, $imcResult['imc']);
+       }
     }
 }
 ?>
@@ -137,6 +147,13 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                 <div class="result">
                     <div class="result__info">
                         <!-- RESULTADO DO IMC -->
+                         <?php if($imcResult): ?>
+                            <p>O seu IMC é: <?php echo $imcResult['imc'] ?? ''; ?> </p>
+                            <p>Categoria: <?php echo $imcResult['BMIrange']?> </p>
+                            <?php else: ?>
+                                <i  class="bi bi-calculator"></i> 
+                                <p>Preencha os dados ao lado para ver o resultado</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
