@@ -6,7 +6,7 @@ require_once '../vendor/autoload.php';
 //IMPORTANDO A CLASSE IMC'S
 use Model\Imcs;
 
-//CRIANDO UM OBJETO PARA REPRESENTAR CADA IMC CRIADO 
+//CRIANDO UM OBJETO PARA REPRESENTAR CADA IMC CRIADO                                                                                                                          
 $imc =  new Imcs(); 
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $height = $_POST['height'];
 
         //ROUND é igual ao toFixed do JavaScript, ou seja, define a quantidade de caracteres depois da vírgula e arredonda 
-        $result = round($weight / ($height * $height), 2);
+        // $result = round($weight / ($height * $height), 2);
 
             //PEGANDO A FUNÇÃO DE CRIAR IMC
         $imc->createImc($weight, $height, $result);
