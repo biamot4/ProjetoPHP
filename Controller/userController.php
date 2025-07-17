@@ -26,7 +26,7 @@ class UserController {
             }
         }
         // E-MAIL JÁ CADASTRADO?
-        public function checkUserByEmail ($email, $password) {
+        public function checkUserByEmail ($email) {
            return $this -> userModel->getUserByEmail($email); 
         }
 
@@ -64,9 +64,8 @@ class UserController {
         //RESGATAR DADOS DO USUÁRIO
         
         public function getUserData($id, $user_fullname, $email){
-            $id = $_SESSION['id'];
 
-            return $this->userModel->getUserInfo($id, $user_fullname, $email);
+            return $this->userModel->getUserInfo($id, user_fullname: $user_fullname, $email);
 
         }
 }

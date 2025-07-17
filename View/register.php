@@ -2,10 +2,11 @@
 //BAIXANDO E CARREGANDO O ARQUIVO AUTOLOAD 
 require_once '../vendor/autoload.php';
 
-//IMPORTANDO A CLASSE USER
-Use Model\User;
-$user = new User();
+//IMPORTANDO O USERCONTROLLER
+Use Controller\UserController;
 
+$userController = new UserController();
+$registerusermessage ='';
 
 if($_SERVER ['REQUEST_METHOD'] === 'POST'){
     if(isset($_POST['user_fullname'] , $_POST['email'] , $_POST['password'])){
@@ -13,7 +14,21 @@ if($_SERVER ['REQUEST_METHOD'] === 'POST'){
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $user->registerUser($user_fullname,  $email, $password);
+        //USO DO CONTROLLER PARA VERIFICAÇÃO DO E-MAIL E CADASTRO DO USUÁRIO
+
+        //JÁ EXISTE UM E-MAIL CADASTRADO?
+            if($userController -> checkUserByEmail($email)){
+                $registerUsermessage = "Já existe um usuário cadastrado com esse endereço de e-mail.";
+            } else {
+                // SE O E-MAIL JÁ EXISTE, CRIE O USUÁRIO
+                if($userController->registerUser($user_fullname, $email, $password)){
+                    //REDIRECIONAR PARA UMA OUTRA PÁGINA, QUANDO O USUÁRIO FOR CADASTRADO
+                    header('location: ../index.php');
+                    exit();
+                } else {
+                    $registerUserMessage = 'Erro ao registrar informações.';
+                } 
+            }
     }
 
 }
@@ -108,7 +123,7 @@ if($_SERVER ['REQUEST_METHOD'] === 'POST'){
             <p class="text-center">Já tem uma conta? <a href="../index.php">Faça login aqui</a></p>
             </div>
         </form>
-        <p></p>
+        <p> <?php echo $registerusermessage;                ?></p>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
